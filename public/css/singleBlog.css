@@ -1,0 +1,290 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f8f8f8;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Navigation Bar Styles */
+/* .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 20px 40px;
+    z-index: 10;
+}
+
+.navbar .logo a {
+    color: white;
+    font-size: 26px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar .nav-links {
+    list-style-type: none;
+    display: flex;
+}
+
+.navbar .nav-links li {
+    margin: 0 15px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.navbar .nav-links a:hover {
+    color: #f39c12;
+}
+ */
+/* Base Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+}
+body > .navbar{
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    background-color: #555;
+    color: #f4f4f4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .navbar a {
+        text-align: center;
+    }
+}
+
+/* Active Link (Optional, based on current page) */
+.navbar a.active {
+    background-color: #444;
+    color: #fff;
+}
+
+
+/* Main Content */
+.main-content {
+    width: 100%;
+    padding: 80px 20px 20px; /* Space for fixed navbar */
+    display: flex;
+    justify-content: center;
+    height: 200vh;
+    
+}
+
+/* Blog Details Container */
+.blog-details-container {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 450px;
+    height: fit-content;
+}
+.blog-image {
+    width: 200px;
+    height: 300px; 
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Ensures it does not shrink in a flex container */
+}
+
+.blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;/* Ensures the image fills the container while maintaining its aspect ratio */
+}
+
+
+.blog-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.blog-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.blog-subtitle {
+    font-size: 20px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.blog-description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.blog-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    text-align: center;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}
+
+.edit-button {
+    background-color: blue;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    display: inline-block;
+    text-align: center;
+    }
+
+.edit-button:hover {
+    background-color: rgb(77, 77, 205);
+}
+.blog-footer{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Media Query for Mobile */
+@media screen and (max-width: 768px) {
+    .blog-details-container {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 490px;
+    }
+
+    .blog-image {
+        /* width: 500px;*/
+        height: 300px; 
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        flex-shrink: 0; /* Ensures it does not shrink in a flex container */
+    }
+    
+    .blog-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the image fills the container while maintaining its aspect ratio */
+    }
+    
+
+    .blog-content {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .delete-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+    .edit-button{
+        font-size: 14px;
+        padding: 10px 20px;
+        /* margin-left: 15rem; */
+    }
+}
