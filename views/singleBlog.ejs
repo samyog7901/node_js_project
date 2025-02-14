@@ -38,6 +38,18 @@
                     <% } %>
            
                 </div>
+                <ul>
+                   <% comments.forEach((comment)=>{ %>
+                        <li><%- comment.commentMessage %> - <%- comment.user.username %></li>
+                    <% }) %>    
+
+                    
+                </ul>
+               <form action="/comment" method="post">
+                <input type="text" name="commentMessage" placeholder="Add a comment...">
+                <input type="hidden" name="blogId" value="<%- blog[0].id %>">
+                <button type="submit">Comment</button>
+               </form>
             </div>
         </div>
     </div>

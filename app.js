@@ -8,6 +8,7 @@ const app = express()
 const CookieParser = require('cookie-parser')
 const blogRoute = require("./routes/blogRoute")
 const authRoute = require("./routes/authRoute")
+const commentRoute = require("./routes/commentRoute")
 const sendSMS = require('./services/sendSMS')
 const session = require('express-session')
 const flash = require('connect-flash')
@@ -40,6 +41,7 @@ require("./model/index") //Database connection
                          // http://localhost:3000 + /create
 app.use('/',blogRoute)//Route linked(means route concatenetion)
 app.use('/',authRoute)
+app.use('/',commentRoute)
 
 
 app.use(express.static('public/css/'))//given access to content of public/css folder

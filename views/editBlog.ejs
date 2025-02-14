@@ -66,8 +66,9 @@
 
             <label for="description">Description:</label>
             <textarea  id="description" name="description" placeholder="Enter the description"> <%-blog[0].description %> </textarea><br>
+            <input type="file" name="image" accept="image/*" value="<%- blog[0].image %>"><br>
 
-            <input type="submit" value="Submit">
+            <input type="submit" value="Update Blog">
         </form>
     </div>
    

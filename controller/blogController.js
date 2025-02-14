@@ -1,92 +1,114 @@
-const { blogs, users } = require("../model");
+const { blogs, users, comments } = require("../model")
 
 exports.homePage = async (req, res) => {
   try {
   const datas = await blogs.findAll({
     include: {
-      model: users,
-    },
-  });
+      model: users
+    }
+  })
 
     // Pass the user session to the template
-  res.render("home", { blogs: datas , data: req.session.data || null });
+  res.render("home", { blogs: datas , data: req.session.data || null })
   } catch (error) {
-    console.log(error);
-  
+    console.log(error)
   }
-};
+}
 
 exports.singleBlog = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id
   const blog = await blogs.findAll({
     where: {
-      id: id,
+      id: id
     },
     include: {
-      model: users,
+      model: users
+    }
+  })
+  const commentsData = await comments.findAll({
+    where: {
+      blogId: id
     },
-  });
-  res.render("singleBlog", { blog: blog });
-};
+    include: {
+      model: users
+    }
+  })
+
+  res.render("singleBlog", { blog: blog, comments: commentsData })
+}
 
 exports.deleteBlog = async (req, res) => {
-  const id = req.params.id;
-  await blogs.destroy({ where: { id: id } });
-  res.redirect("/");
-};
+  const id = req.params.id
+  await blogs.destroy({ where: { id: id } })
+  res.redirect("/")
+}
 
 exports.renderUpdateBlog = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id
   const blog = await blogs.findAll({
     where: {
-      id: id,
-    },
-  });
-  res.render("editBlog", { blog: blog });
-};
+      id: id
+    }
+  })
+  res.render("editBlog", { blog: blog })
+}
 
 exports.updateBlog = async (req, res) => {
-  const id = req.params.id;
-  const { title, subtitle, description } = req.body;
+  const id = req.params.id
+  const { title, subtitle, description } = req.body
+  const image = req.file ? req.file.filename : null // Check if image is uploaded
 
   try {
+    const blog = await blogs.findOne({ where: { id } })
+    if (!blog) return res.status(404).json({ error: 'Blog not found.' })
     await blogs.update(
       {
         title,
         subtitle,
-        description,
+        description
       },
       {
         where: {
-          id: id,
-        },
+          id: id
+        }
       }
-    );
-    res.redirect(`/blog/${id}`);
+    )
+    res.redirect(`/blog/${id}`)
   } catch (error) {
-    res.status(500).json({ error: 'Failed to update blog.' });
+    res.status(500).json({ error: 'Failed to update blog.' })
   }
- 
-};
+}
 
 exports.createForm = (req, res) => {
-  res.render('create.ejs');
-};
+  res.render('create.ejs')
+}
 
 exports.createBlog = async (req, res) => {
-  let filename;
+  let filename
   if (req.file) {
-    filename = req.file.filename;
+    filename = req.file.filename
   } else {
-    filename = "";
+    filename = ""
   }
-  const { title, subtitle, description } = req.body;
+  const { title, subtitle, description } = req.body
   await blogs.create({
     title,
     subtitle,
     description,
     image: filename,
-    userId: req.userId,
-  });
-  res.redirect("/");
-};
+    userId: req.userId
+  })
+  res.redirect("/")
+}
+
+exports.addComment = async (req, res) => {
+  const {userId} = req
+  const { commentMessage, blogId } = req.body
+  if(!commentMessage || !blogId) return res.send("please provide a comment and blog id")
+  await comments.create({
+    commentMessage,
+    userId,
+    blogId
+  })
+  res.redirect(`/blog/${blogId}`)
+}

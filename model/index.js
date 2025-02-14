@@ -3,6 +3,7 @@ const  {Sequelize,DataTypes} = require('sequelize')
 const databaseConfig = require('../config/dbConfig')
 const makeBlogTable = require('./blogModel')
 const makeUserTable = require('./userModel')
+const makeCommentTable = require('./commentModel')
 
 
 const sequelize = new Sequelize(databaseConfig.db,databaseConfig.username,databaseConfig.password,{
@@ -33,10 +34,17 @@ db.sequelize = sequelize//ghar lai db vanne object ma rakheko
 // importing model files
 db.blogs = makeBlogTable(sequelize,DataTypes) //function call
 db.users = makeUserTable(sequelize,DataTypes)
+db.comments = makeCommentTable(sequelize,DataTypes)
 
 // relationship
 db.users.hasMany(db.blogs)
 db.blogs.belongsTo(db.users)
+
+db.users.hasMany(db.comments)
+db.comments.belongsTo(db.users)
+
+db.blogs.hasMany(db.comments)
+db.comments.belongsTo(db.blogs)
 
 db.sequelize.sync({force : false}).then(()=>{
     console.log('Synced done!!')
