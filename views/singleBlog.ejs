@@ -47,7 +47,11 @@
                                 <% if(currentUserId){%>
                                 <% if(comment.userId == currentUserId) { %>
                                     <a href="/deleteComment/<%- comment.id %>" class="delete-btn">Delete</a>
-                                <% }} %>
+                                <% }}console.log('Navigation Bar rendered');
+console.log('Main Content rendered');
+console.log('Blog Details rendered');
+console.log('Comments rendered');
+console.log('Comment Form rendered'); %>
                             </li>
                         <% }) %>
                     </ul>
