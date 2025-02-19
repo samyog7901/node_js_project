@@ -18,85 +18,22 @@ body {
     background: #f8f8f8;
 }
 
-h1 {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-/* Navigation Bar Styles */
-/* .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 20px 40px;
-    z-index: 10;
-}
-
-.navbar .logo a {
-    color: white;
-    font-size: 26px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.navbar .nav-links {
-    list-style-type: none;
-    display: flex;
-}
-
-.navbar .nav-links li {
-    margin: 0 15px;
-}
-
-.navbar .nav-links a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: color 0.3s;
-}
-
-.navbar .nav-links a:hover {
-    color: #f39c12;
-}
- */
-/* Base Styling */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-
-}
-body > .navbar{
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: flex-end;
-}
-
+/* Navigation Bar */
 .navbar {
     background-color: #333;
     padding: 1rem 2rem;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    position: relative;
+    position: fixed;
     top: 0;
+    width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    width: 100%;
 }
 
 .navbar ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
     display: flex;
     gap: 1.5rem;
 }
@@ -119,29 +56,6 @@ body > .navbar{
     color: #f4f4f4;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-    }
-
-    .navbar ul {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .navbar a {
-        text-align: center;
-    }
-}
-
-/* Active Link (Optional, based on current page) */
-.navbar a.active {
-    background-color: #444;
-    color: #fff;
-}
-
-
 /* Main Content */
 .main-content {
     width: 100%;
@@ -149,7 +63,6 @@ body > .navbar{
     display: flex;
     justify-content: center;
     height: 200vh;
-    
 }
 
 /* Blog Details Container */
@@ -166,21 +79,21 @@ body > .navbar{
     margin-top: 450px;
     height: fit-content;
 }
+
 .blog-image {
     width: 200px;
     height: 300px; 
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* Ensures it does not shrink in a flex container */
+    flex-shrink: 0;
 }
 
 .blog-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;/* Ensures the image fills the container while maintaining its aspect ratio */
+    object-fit: cover;
 }
-
 
 .blog-content {
     flex: 1;
@@ -207,10 +120,11 @@ body > .navbar{
     margin-bottom: 30px;
 }
 
+/* Blog Footer */
 .blog-footer {
-    margin-top: 30px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin-top: 30px;
 }
 
 .delete-button {
@@ -239,17 +153,96 @@ body > .navbar{
     transition: background-color 0.3s;
     display: inline-block;
     text-align: center;
-    }
+}
 
 .edit-button:hover {
     background-color: rgb(77, 77, 205);
 }
-.blog-footer{
-    display: flex;
-    justify-content: space-between;
+
+/* Comment Section */
+.comment-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Media Query for Mobile */
+/* Comments List */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f3f3f3;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.comment p {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Username Highlight */
+.comment .username {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Delete Button for Comments */
+.comment .delete-btn {
+    font-size: 12px;
+    background: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.comment .delete-btn:hover {
+    background: #e60000;
+}
+
+/* Comment Form */
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.comment-form input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.comment-form button {
+    margin-top: 10px;
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.comment-form button:hover {
+    background: #0056b3;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 768px) {
     .blog-details-container {
         flex-direction: column;
@@ -257,34 +250,21 @@ body > .navbar{
         margin-top: 490px;
     }
 
-    .blog-image {
-        /* width: 500px;*/
-        height: 300px; 
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        flex-shrink: 0; /* Ensures it does not shrink in a flex container */
-    }
-    
-    .blog-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Ensures the image fills the container while maintaining its aspect ratio */
-    }
-    
-
     .blog-content {
-        padding: 20px;
         text-align: center;
     }
 
-    .delete-button {
+    .delete-button, .edit-button {
         font-size: 14px;
         padding: 10px 20px;
     }
-    .edit-button{
-        font-size: 14px;
-        padding: 10px 20px;
-        /* margin-left: 15rem; */
+
+    .comment {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .comment .delete-btn {
+        margin-top: 5px;
     }
 }

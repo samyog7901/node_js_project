@@ -38,18 +38,27 @@
                     <% } %>
            
                 </div>
-                <ul>
-                   <% comments.forEach((comment)=>{ %>
-                        <li><%- comment.commentMessage %> - <%- comment.user.username %></li>
-                    <% }) %>    
-
-                    
-                </ul>
-               <form action="/comment" method="post">
-                <input type="text" name="commentMessage" placeholder="Add a comment...">
-                <input type="hidden" name="blogId" value="<%- blog[0].id %>">
-                <button type="submit">Comment</button>
-               </form>
+                <div class="comment-section">
+                    <h3>Comments</h3>
+                    <ul>
+                        <% comments.forEach((comment) => { %>
+                            <li class="comment">
+                                <p><span class="username"><%- comment.user.username %></span>: <%- comment.commentMessage %></p>
+                                <% if(comment.userId == currentUserId) { %>
+                                    <a href="/deleteComment/<%- comment.id %>" class="delete-btn">Delete</a>
+                                <% } %>
+                            </li>
+                        <% }) %>
+                    </ul>
+                
+                    <!-- Comment Form -->
+                    <form action="/comment" method="post" class="comment-form">
+                        <input type="text" name="commentMessage" placeholder="Add a comment..." required>
+                        <input type="hidden" name="blogId" value="<%- blog[0].id %>">
+                        <button type="submit">Comment</button>
+                    </form>
+                </div>
+                
             </div>
         </div>
     </div>

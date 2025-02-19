@@ -1,0 +1,89 @@
+/* Footer Styles */
+.footer {
+    background: #111;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .container {
+    width: 85%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Footer Branding */
+  .footer-content h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .footer-content p {
+    color: #bbb;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+  /* Footer Navigation Links */
+  .footer-links a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .footer-links a:hover {
+    color: #ffcc00;
+  }
+  
+  /* Social Media Icons */
+  .footer-social {
+    margin-top: 15px;
+  }
+  
+  .footer-social a {
+    display: inline-flex;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .footer-social i {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  
+  .footer-social a:hover {
+    transform: translateY(-3px);
+    color: #ffcc00;
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      text-align: center;
+    }
+    
+    .footer-links, .footer-social {
+      margin-top: 10px;
+    }
+  }
+  
