@@ -1,11 +1,11 @@
 // Yaha Databaseko configuration ko code hunxa
 const databaseConfig = {
-    db : process.env.DB,//in this way we access data from .env file
-    username : process.env.USERNAME,
-    password : process.env.PASSWORD,
-    host : process.env.HOST,
-    port : 3306,
-    dialect : 'mysql'
+    db : "railway",//in this way we access data from .env file
+    username : "root",
+    password : "pdDIBgpNNmZWddIkIiWOZQCpOYczpgsX",
+    host : "turntable.proxy.rlwy.net",
+    // port : 39014,
+    dialect : "mysql"
 }
 
 module.exports = databaseConfig;  //exporting the database config to use in other files
