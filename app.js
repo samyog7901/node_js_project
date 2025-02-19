@@ -35,10 +35,13 @@ app.set('view engine','ejs')//expresslai maile ejs use garna laako yesko laagi r
 app.use(async (req,res,next)=>{
     // const currentUser = req.user
     res.locals.currentUser = req.cookies.token
+
     if(req.cookies.token){
         const jwtVerify = util.promisify(jwt.verify)
         const data = await jwtVerify(req.cookies.token,process.env.SECRET_KEY)
         res.locals.currentUserId = data.id
+    }else{
+        res.locals.currentUserId = null
     }
     next()
 })
