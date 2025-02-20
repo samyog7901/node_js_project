@@ -1,5 +1,5 @@
 // Yaha Databaseko configuration ko code hunxa
-const databaseConfig = {
+const dbConfig = {
     db : "railway",//in this way we access data from .env file
     username : "root",
     password : "pdDIBgpNNmZWddIkIiWOZQCpOYczpgsX",
@@ -10,8 +10,8 @@ const databaseConfig = {
         max: 5,
         min: 0,
         acquire: 30000,
-        idle: 10000,
-      },
+        idle: 10000
+    }
 }
 
-module.exports = databaseConfig;  //exporting the database config to use in other files
+module.exports = dbConfig  //exporting the database config to use in other files
