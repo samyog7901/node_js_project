@@ -5,7 +5,7 @@ const { blogs, sequelize, users } = require('./model/index')
 // const storage = require('./middleware/multerConfig').storage
 
 const app = express()
-const port = process.env.PORT || 39014
+const port = process.env.PORT || 4000
 const CookieParser = require('cookie-parser')
 const blogRoute = require("./routes/blogRoute")
 const authRoute = require("./routes/authRoute")
