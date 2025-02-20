@@ -47,8 +47,8 @@
                                 <% if(currentUserId){%>
                                 <% if(comment.userId == currentUserId) { %>
                                     <a href="/deleteComment/<%- comment.id %>" class="delete-btn">Delete</a>
-                                <% } %>
-                                <% } %>
+                                <% } }%>
+                                
                             </li>
                         <% }) %>
                     </ul>
