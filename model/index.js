@@ -1,21 +1,21 @@
 //Database Connection
 const  {Sequelize,DataTypes} = require('sequelize')
-const databaseConfig = require('../config/dbConfig')
+const dbConfig = require('../config/dbConfig')
 const makeBlogTable = require('./blogModel')
 const makeUserTable = require('./userModel')
 const makeCommentTable = require('./commentModel')
 
 
-const sequelize = new Sequelize(databaseConfig.db,databaseConfig.username,databaseConfig.password,{
-    host : databaseConfig.host,
+const sequelize = new Sequelize(dbConfig.db,dbConfig.username,dbConfig.password,{
+    host : dbConfig.host,
     port : 39014,
-    dialect : databaseConfig.dialect,
+    dialect : dbConfig.dialect,
     operatorsAliases : false,
-    pool :{
-        max : 5,
-        min : 0,
-        acquire : 30000,
-        idle : 10000
+    pool: {
+        max: dbConfig.pool.max,
+        min: dbConfig.pool.min,
+        acquire: dbConfig.pool.acquire,
+        idle: dbConfig.pool.idle,
     }
 })
 

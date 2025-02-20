@@ -43,12 +43,11 @@
                     <ul>
                         <% comments.forEach((comment) => { %>
                             <li class="comment">
-                                <p><span class="username"><%- comment.length > 0 && comment[0]?.user?.username %></span>: <%- comment.length > 0 && comment[0]?.commentMessage %></p>
+                                <p><span class="username"><%-comment.user.username %></span>: <%- comment.commentMessage %></p>
                                 <% if(currentUserId){%>
                                 <% if(comment.userId == currentUserId) { %>
                                     <a href="/deleteComment/<%- comment.id %>" class="delete-btn">Delete</a>
-                                <% }%>
-                                <% } %>
+                                <% }}%>
                                 
                             </li>
                         <% }) %>

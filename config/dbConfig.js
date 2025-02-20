@@ -5,7 +5,13 @@ const databaseConfig = {
     password : "pdDIBgpNNmZWddIkIiWOZQCpOYczpgsX",
     host : "turntable.proxy.rlwy.net",
     // port : 39014,
-    dialect : "mysql"
+    dialect : "mysql",
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000,
+      },
 }
 
 module.exports = databaseConfig;  //exporting the database config to use in other files
