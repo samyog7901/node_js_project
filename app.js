@@ -6,6 +6,7 @@ const { blogs, sequelize, users } = require('./model/index')
 
 const app = express()
 // ✅ Session middleware set before accessing req.session
+const session = require('express-session')
 app.use(session({
     secret: 'radhethisissecret',
     resave: false,
@@ -17,7 +18,6 @@ const blogRoute = require("./routes/blogRoute")
 const authRoute = require("./routes/authRoute")
 const commentRoute = require("./routes/commentRoute")
 const sendSMS = require('./services/sendSMS')
-const session = require('express-session')
 const flash = require('connect-flash')
 const util = require('util')
 const jwt = require("jsonwebtoken")
