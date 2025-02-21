@@ -24,12 +24,17 @@ router.post("/register", catchError(registerUser))
 router.get("/login", renderLogin)
 router.post("/login", catchError(async (req, res, next) => {
     await loginUser(req, res, next) // Call login function
-    if (req.user) { // Ensure req.user exists after login
-        req.session.user = { id: req.user.id, email: req.user.email }
-        req.session.save(err => {
-            if (err) console.error("Session save error:", err)
-        })
-    }
+        if (req.user) { // Ensure req.user exists after login
+            req.session.user = { id: req.user.id, email: req.user.email };
+            req.session.save(err => {
+                if (err) {
+                    console.error("Session save error:", err);
+                } else {
+                    console.log("User stored in session:", req.session.user);
+                }
+            });
+        }
+        
 }))
 
 // Logout Route
