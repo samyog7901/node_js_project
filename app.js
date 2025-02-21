@@ -5,6 +5,13 @@ const { blogs, sequelize, users } = require('./model/index')
 // const storage = require('./middleware/multerConfig').storage
 
 const app = express()
+// ✅ Session middleware set before accessing req.session
+app.use(session({
+    secret: 'radhethisissecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+}))
 const CookieParser = require('cookie-parser')
 const blogRoute = require("./routes/blogRoute")
 const authRoute = require("./routes/authRoute")
@@ -15,13 +22,6 @@ const flash = require('connect-flash')
 const util = require('util')
 const jwt = require("jsonwebtoken")
 
-// ✅ Session middleware set before accessing req.session
-app.use(session({
-    secret: 'radhethisissecret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false } // Set to true if using HTTPS
-}))
 
 app.use(flash())
 
