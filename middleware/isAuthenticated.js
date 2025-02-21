@@ -17,7 +17,7 @@ exports.isAuthenticated = async(req, res, next) => {
     // const verifiedResult = await promisify (jwt.verify)(token, process.env.SECRET_KEY)
     const util = require('util')
 const jwtVerify = util.promisify(jwt.verify)
-const verifiedResult = await jwtVerify(token, process.env.SECRET_KEY)
+const verifiedResult = await jwtVerify(token, 'thisissecretkeydontshare')
 
     const user = await users.findByPk(verifiedResult.id)
 
