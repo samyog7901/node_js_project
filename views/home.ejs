@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="home.css">
     <link rel="stylesheet" href="footer.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -20,13 +18,12 @@
         <button class="hamburger" id="hamburger">&#9776;</button>
         <ul class="nav-links" id="nav-links">
             <li><a href="#">Home</a></li>
-            <% if (data){ %>
-            <li> <a href="https://node-js-project-jc7k.onrender.com/create">Add New Blog</a></li>
-            <li>  <a href="https://node-js-project-jc7k.onrender.com/logout">Logout</a></li>
-            <% }else{ %>
-                <li>  <a href="https://node-js-project-jc7k.onrender.com/register">Register User</a></li>
-                <li> <a href="https://node-js-project-jc7k.onrender.com/login">Login User</a></li>
-               
+            <% if (data) { %>
+                <li><a href="https://node-js-project-jc7k.onrender.com/create">Add New Blog</a></li>
+                <li><a href="https://node-js-project-jc7k.onrender.com/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="https://node-js-project-jc7k.onrender.com/register">Register User</a></li>
+                <li><a href="https://node-js-project-jc7k.onrender.com/login">Login User</a></li>
             <% } %>
         </ul>
     </nav>
@@ -38,74 +35,72 @@
             <span class="blog-system-text">Blog Management System</span>
         </h1>
         <p id="typewriter"></p>
+        
+        <!-- Flash Messages -->
+        <!-- <% if (success) { %>
+            <div class="alert alert-success"><%- success %></div>
+        <% } %>
+        <% if (error) { %>
+            <div class="alert alert-danger"><%- error %></div>
+        <% } %>
+        <% if (error2) { %>
+            <div class="alert alert-danger"><%- error2 %></div>
+        <% } %> -->
+
         <div class="card-container">
-           <% blogs.forEach(function(blog){ %>
+            <% blogs.forEach(function(blog) { %>
                 <div class="card">
-                <img src="<%- blog.image %>" alt="Image 1">
-                <div class="card-title"><%- blog.title %></div>
-                <h4><%- blog.subtitle %></h4>
-                <p>Author : <%- blog.user.username %></p>
-                <a href="/blog/<%- blog.id %>">Read more..</a>
-
-            </div>
-
+                    <img src="<%- blog.image %>" alt="Image 1">
+                    <div class="card-title"><%- blog.title %></div>
+                    <h4><%- blog.subtitle %></h4>
+                    <p>Author : <%- blog.user.username %></p>
+                    <a href="/blog/<%- blog.id %>">Read more..</a>
+                </div>
             <% }) %>
-            
-        </div>
-        <div class="addBlog">
-           
-        </div>
-        <div class="register">
-          
-        </div>
-        <div class="login">
-           
         </div>
     </div>
+
     <script>
-     const text = "Here you can read blogs and add, modify, and delete blogs after registering and logging in.";
-let index = 0;
-const speed = 120;  // Typing speed (milliseconds)
-const delayBeforeErase = 3000; // Wait time before erasing (milliseconds)
+        const text = "Here you can read blogs and add, modify, and delete blogs after registering and logging in.";
+        let index = 0;
+        const speed = 120;  // Typing speed (milliseconds)
+        const delayBeforeErase = 3000; // Wait time before erasing (milliseconds)
 
-function typeWriterEffect() {
-  if (index < text.length) {
-    document.getElementById("typewriter").textContent += text.charAt(index);
-    index++;
-    setTimeout(typeWriterEffect, speed);
-  } else {
-    setTimeout(eraseEffect, delayBeforeErase);
-  }
-}
+        function typeWriterEffect() {
+            if (index < text.length) {
+                document.getElementById("typewriter").textContent += text.charAt(index);
+                index++;
+                setTimeout(typeWriterEffect, speed);
+            } else {
+                setTimeout(eraseEffect, delayBeforeErase);
+            }
+        }
 
-function eraseEffect() {
-  if (index > 0) {
-    document.getElementById("typewriter").textContent = text.substring(0, index - 1);
-    index--;
-    setTimeout(eraseEffect, speed / 2); // Erasing speed is faster
-  } else {
-    setTimeout(typeWriterEffect, 500); // Small delay before restarting
-  }
-}
+        function eraseEffect() {
+            if (index > 0) {
+                document.getElementById("typewriter").textContent = text.substring(0, index - 1);
+                index--;
+                setTimeout(eraseEffect, speed / 2); // Erasing speed is faster
+            } else {
+                setTimeout(typeWriterEffect, 500); // Small delay before restarting
+            }
+        }
 
-window.onload = typeWriterEffect;
-
-    </script>
-    <script>
-     document.addEventListener("DOMContentLoaded", function () {
-        const hamburger = document.getElementById("hamburger")
-        const navLinks = document.getElementById("nav-links")
-
-        hamburger.addEventListener("click", function () {
-        navLinks.classList.toggle("active")
-        console.log("js loaded");
-        
-
-        })
-     })
-
+        window.onload = typeWriterEffect;
     </script>
 
-<%- include('footer.ejs') %>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("nav-links");
+
+            hamburger.addEventListener("click", function () {
+                navLinks.classList.toggle("active");
+                console.log("js loaded");
+            });
+        });
+    </script>
+
+    <%- include('footer.ejs') %>
 </body>
 </html>
