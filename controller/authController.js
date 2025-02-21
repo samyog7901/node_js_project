@@ -2,13 +2,14 @@ const { users } = require("../model")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const sendEmail = require("../services/sendEmail")
-const { query } = require("express")
 
+// getMethod
 exports.renderRegister = (req, res) => {
     const [success] = req.flash("success")
     res.render("register", { success })
 }
 
+// postMethod
 exports.registerUser = async (req, res) => {
     const { username, email, password } = req.body
     await users.create({
@@ -23,7 +24,7 @@ exports.registerUser = async (req, res) => {
 // getMethod
 exports.renderLogin = (req, res) => {
     const [error] = req.flash("error") // session bata nikaleko
-    const [success] = req.flash("success") // Fix: Retrieve success message
+    const [success] = req.flash("success") // session bata nikaleko
     const [error2] = req.flash("error2") // session bata nikaleko
     res.render("login", { error, success, error2 })
 }
@@ -34,69 +35,69 @@ exports.loginUser = async (req, res) => {
     if (!email || !password) {
         return res.send("please provide email and password")
     }
+    
     // check whether that email exist or not in users table
-    const data = await users.findAll({
-        where: {
-            email: email
-        }
+    const data = await users.findOne({
+        where: { email }
     })
     console.log("User fetched from database: ", data)
     
-    if (data.length == 0) {
+    if (!data) {
         req.flash('error2', "No user found with this email")
         return res.redirect("/login")
     } else {
         // now check password
-        const hashedPassword = data[0].password
+        const hashedPassword = data.password
         const isMatch = bcrypt.compareSync(password, hashedPassword)
         if (isMatch) {
-            req.session.data = {
-                id: data[0].id,
-                username: data[0].username,
-                email: data[0].email
+            req.session.user = {
+                id: data.id,
+                username: data.username,
+                email: data.email
             }
-            console.log("user stored in session: ", req.session.user)
+            req.session.save(err => {
+                if (err) console.log("Session save error:", err)
+            })
+            console.log("User stored in session: ", req.session.user)
             
             // generate token
-            var token = jwt.sign({ id: data[0].id }, process.env.SECRET_KEY, { expiresIn: "1d" })
+            var token = jwt.sign({ id: data.id }, process.env.SECRET_KEY, { expiresIn: "1d" })
             res.cookie("token", token)
             res.redirect("/")
         } else {
             req.flash('error', 'Invalid Email or Password') // session ma rakheko
             res.redirect("/login")
-            return
         }
     }
 }
 
 exports.logOutUser = (req, res) => {
-    req.session.destroy(()=>{
+    req.session.destroy(() => {
         res.clearCookie("token")
         res.redirect("/login")
     })
 }
 
+// getMethod
 exports.forgotPassword = (req, res) => {
     const [error] = req.flash("error")
-    res.render("forgotPassword",{error})
+    res.render("forgotPassword", { error })
 }
 
+// postMethod
 exports.handleForgotPassword = async (req, res) => {
     const { email } = req.body
     if (!email) {
         return res.send("please provide email")
     }
-    const userData = await users.findAll({
-        where: {
-            email
-        }
-    })
-    if (userData.length == 0) {
+
+    const userData = await users.findOne({ where: { email } })
+    if (!userData) {
         req.flash("error", "No user with that email!")
-        res.redirect("/forgotPassword")
-        return
+        return res.redirect("/forgotPassword")
     }
-    const generatedOtp = Math.floor(Math.floor(10000 * Math.random(99999)))
+
+    const generatedOtp = Math.floor(10000 + Math.random() * 90000) // 5-digit OTP
     // tyo email ma OTP send garney
     const data = {
         email: email,
@@ -104,43 +105,45 @@ exports.handleForgotPassword = async (req, res) => {
         message: "your OTP is :" + generatedOtp
     }
     await sendEmail(data)
+
     // OTP save garne
-    userData[0].otp = generatedOtp
-    userData[0].otpGeneratedTime = Date.now()
-    await userData[0].save()
+    userData.otp = generatedOtp
+    userData.otpGeneratedTime = Date.now()
+    await userData.save()
+
     res.redirect("/otpForm?email=" + email)
 }
 
+// getMethod
 exports.renderOtpForm = (req, res) => {
     const email = req.query.email
     const [error] = req.flash("error")
     res.render("otpForm", { email, error })
 }
 
+// postMethod
 exports.verifyOtp = async (req, res) => {
     const { otp } = req.body
     const email = req.params.id
     
-    const data = await users.findAll({
-        where: {
-            otp: otp,
-            email: email
-        }
+    const user = await users.findOne({
+        where: { otp: otp, email: email }
     })
-    if (data.length == 0) {
+    if (!user) {
         req.flash('error', 'Invalid OTP')
-        res.redirect('/otpForm?email=' + email)
-        return
+        return res.redirect('/otpForm?email=' + email)
     }
+
     const currentTime = Date.now()
-    const otpGeneratedTime = data[0].otpGeneratedTime
-    if (currentTime - otpGeneratedTime <= 120000) {
+    const otpGeneratedTime = user.otpGeneratedTime
+    if (currentTime - otpGeneratedTime <= 120000) { // 2 minutes validity
         res.redirect(`/resetPassword?email=${email}&otp=${otp}`)
     } else {
         res.send("OTP has expired!")
     }
 }
 
+// getMethod
 exports.renderResetPassword = (req, res) => {
     const { email, otp } = req.query // mathi ? bata start vaxa so req.query use garya
     if (!email || !otp) {
@@ -149,6 +152,7 @@ exports.renderResetPassword = (req, res) => {
     res.render("resetPassword", { email, otp })
 }
 
+// postMethod
 exports.handleResetPassword = async (req, res) => {
     const email = req.params.email
     const otp = req.params.otp
@@ -157,26 +161,22 @@ exports.handleResetPassword = async (req, res) => {
     if (!email || !otp || !newPassword || !confirmNewPassword) {
         return res.send("please provide all fields")
     }
-    if (newPassword != confirmNewPassword) {
+    if (newPassword !== confirmNewPassword) {
         return res.send("New password and confirm new password should be same")
     }
-    const userData = await users.findAll({
-        where: {
-            email,
-            otp
-        }
-    })
+
+    const userData = await users.findOne({ where: { email, otp } })
+    if (!userData) {
+        return res.send("Invalid OTP or email")
+    }
+
     const currentTime = Date.now()
-    const otpGeneratedTime = userData[0].otpGeneratedTime
+    const otpGeneratedTime = userData.otpGeneratedTime
     if (currentTime - otpGeneratedTime <= 120000) {
-        await users.update({
-            password: bcrypt.hashSync(newPassword, 8)
-        },
-        {
-            where: {
-                email: email
-            }
-        })
+        await users.update(
+            { password: bcrypt.hashSync(newPassword, 8) },
+            { where: { email } }
+        )
         res.redirect("/login")
     } else {
         res.send("OTP has expired!")
