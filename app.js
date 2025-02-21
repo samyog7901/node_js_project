@@ -66,6 +66,16 @@ app.use(express.static('public/css/')) // given access to content of public/css 
 app.use(express.static('./storage/'))
 
 // sendSMS()
+app.use((err, req, res, next) => {
+    console.error("🌍 Global Error Handler:", err.stack)
+    
+    res.status(err.status || 500).json({
+        success: false,
+        message: process.env.NODE_ENV === "production"
+            ? "Something went wrong, please try again later."
+            : err.message, // Show detailed errors only in development
+    })
+})
 
 app.listen(4000, () => {
     console.log("Prem se Bolo Radhe Radhe!")

@@ -1,27 +1,50 @@
-const { renderRegister, registerUser, renderLogin, loginUser, logOutUser, forgotPassword, handleForgotPassword, renderOtpForm, verifyOtp, renderResetPassword, handleResetPassword } = require("../controller/authController")
+const express = require("express")
 const catchError = require("../services/catchError")
+const {
+    renderRegister,
+    registerUser,
+    renderLogin,
+    loginUser,
+    logOutUser,
+    forgotPassword,
+    handleForgotPassword,
+    renderOtpForm,
+    verifyOtp,
+    renderResetPassword,
+    handleResetPassword
+} = require("../controller/authController")
 
-const router = require("express").Router()
+const router = express.Router()
 
-router.route("/register").get(catchError(renderRegister)).post(catchError(registerUser))
-router.route("/login").get(catchError(renderLogin)).post(catchError(async (req, res, next) => {
-    try {
-        await loginUser(req, res, next); // Call login function
-        if (req.user) { // Ensure req.user exists after login
-            req.session.user = { id: req.user.id, email: req.user.email }; // Store user session
-            req.session.save(err => {
-                if (err) console.log("Session save error:", err);
-            });
-        }
-    } catch (err) {
-        next(err);
+// Register Route
+router.get("/register", renderRegister)
+router.post("/register", catchError(registerUser))
+
+// Login Route
+router.get("/login", renderLogin)
+router.post("/login", catchError(async (req, res, next) => {
+    await loginUser(req, res, next) // Call login function
+    if (req.user) { // Ensure req.user exists after login
+        req.session.user = { id: req.user.id, email: req.user.email }
+        req.session.save(err => {
+            if (err) console.error("Session save error:", err)
+        })
     }
-}));
-router.route("/logout").get(catchError(logOutUser))
-router.route("/forgotPassword").get(catchError(forgotPassword)).post(catchError(handleForgotPassword))
-router.route("/otpForm").get(catchError(renderOtpForm))
-router.route("/verifyOtp/:id").post(catchError(verifyOtp))
-router.route("/resetPassword").get(catchError(renderResetPassword))
-router.route("/resetPassword/:email/:otp").post(catchError(handleResetPassword))
+}))
+
+// Logout Route
+router.get("/logout", catchError(logOutUser))
+
+// Forgot Password Routes
+router.get("/forgotPassword", forgotPassword)
+router.post("/forgotPassword", catchError(handleForgotPassword))
+
+// OTP Verification Routes
+router.get("/otpForm", renderOtpForm)
+router.post("/verifyOtp/:id", catchError(verifyOtp))
+
+// Reset Password Routes
+router.get("/resetPassword", renderResetPassword)
+router.post("/resetPassword/:email/:otp", catchError(handleResetPassword))
 
 module.exports = router
