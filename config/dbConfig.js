@@ -2,8 +2,8 @@
 const dbConfig = {
     db : "railway",//in this way we access data from .env file
     username : "root",
-    password : "pdDIBgpNNmZWddIkIiWOZQCpOYczpgsX",
-    host : "turntable.proxy.rlwy.net",
+    password : "FZeweZqVeDxvlbhFQuaUiGBoaAUsuYZR",
+    host : "tramway.proxy.rlwy.net",
     // port : 39014,
     dialect : "mysql",
     pool: {

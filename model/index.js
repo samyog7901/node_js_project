@@ -9,7 +9,7 @@ const makeCommentTable = require('./commentModel')
 // la sequelize yo config haru lag ani database connect gardey vaneko hae 
 const sequelize = new Sequelize(dbConfig.db,dbConfig.username,dbConfig.password,{
     host : dbConfig.host,
-    port : 39014,
+    port : 57125,
     dialect : dbConfig.dialect,
     operatorsAliases : false,
     pool: {
