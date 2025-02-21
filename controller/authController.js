@@ -61,7 +61,7 @@ exports.loginUser = async (req, res) => {
             console.log("User stored in session: ", req.session.user)
             
             // generate token
-            var token = jwt.sign({ id: data.id }, process.env.SECRET_KEY, { expiresIn: "1d" })
+            var token = jwt.sign({ id: data.id }, 'thisissecretkeydontshare', { expiresIn: "1d" })
             res.cookie("token", token)
             res.redirect("/")
         } else {
